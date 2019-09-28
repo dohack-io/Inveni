@@ -27,9 +27,9 @@ public class HttpController {
         this.toolbox = toolbox;
     }
 
-    @GetMapping("/fetchpropertiesbyattribs")
-    public List<Property> fetchPropertiesByAttribs(@RequestParam(value = "dateBefore", required = true) long dateBefore, @RequestParam(value = "dateAfter", required = true) long dateAfter, @RequestParam(value = "desc", required = true) String desc, @RequestParam(value = "lat", required = true) double lat, @RequestParam(value = "lon", required = true) double lon, @RequestParam(value = "radius", required = true) double radius) {
-        List<Property> possibleProperties = propertyRepository.queryItems(dateBefore, dateAfter, desc);
+    @GetMapping("/fetchpropertiesbyattribsforuser")
+    public List<Property> fetchPropertiesByAttribs(@RequestParam(value = "userID", required = true) long userID, @RequestParam(value = "dateBefore", required = true) long dateBefore, @RequestParam(value = "dateAfter", required = true) long dateAfter, @RequestParam(value = "desc", required = true) String desc, @RequestParam(value = "lat", required = true) double lat, @RequestParam(value = "lon", required = true) double lon, @RequestParam(value = "radius", required = true) double radius) {
+        List<Property> possibleProperties = propertyRepository.queryItemsWithoutFinder(userID, dateBefore, dateAfter, desc);
         List<Property> properties = new ArrayList<>();
         for(Property property:possibleProperties){
             if(toolbox.getDistance(lat, lon, property.getLatitude(), property.getLongitude())<=radius){
@@ -39,14 +39,26 @@ public class HttpController {
         return properties;
     }
 
+    @GetMapping("/fetchpropertiesbyfinder")
+    public List<Property> fetchPropertiesByAttribs(@RequestParam(value = "userID", required = true) long userID) {
+        return propertyRepository.queryItemsforFinder(userRepository.getById(userID));
+    }
+
     @GetMapping("/fetchpropertybyid")
     public Property fetchPropertyById(@RequestParam(value = "id", required = true) long id){
         return propertyRepository.getById(id);
     }
 
+    @GetMapping("deleteProperty")
+    public Property deleteProperty(@RequestParam(value="id", required = true) long id){
+        Property p = propertyRepository.getById(id);
+        propertyRepository.deleteById(id);
+        return p;
+    }
+
     @PostMapping(value = "/addproperty", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Property addProperty(@RequestBody Property property) {
-        return propertyRepository.save(property);
+    public Property addProperty(@RequestBody PropertyDTO propertyDTO) {
+        return propertyRepository.save(toolbox.toProperty(propertyDTO));
     }
 
     @PostMapping(value = "/addpossibleowner", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,6 +88,13 @@ public class HttpController {
         return userRepository.getById(id);
     }
 
+    @GetMapping("deleteuser")
+    public User deleteUser(@RequestParam(value="id", required = true) long id){
+        User u = userRepository.getById(id);
+        userRepository.deleteById(id);
+        return u;
+    }
+
     @PostMapping(value = "/adduser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@RequestBody UserDTO user) {
         return userRepository.save(toolbox.toUser(user));
@@ -87,9 +106,7 @@ public class HttpController {
         Property property = propertyRepository.getById(pair.getPropertyID());
         if(Objects.nonNull(user) && Objects.nonNull(property)){
             user.addProperty(property);
-            userRepository.save(user);
-            user = userRepository.getById(user.getId());
-            return user;
+            return userRepository.save(user);
         }
         return null;
     }

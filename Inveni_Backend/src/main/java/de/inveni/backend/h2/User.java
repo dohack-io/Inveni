@@ -1,5 +1,9 @@
 package de.inveni.backend.h2;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.inveni.backend.util.PropertySerializer;
+import de.inveni.backend.util.UserSerializer;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public class User {
     @ManyToOne
     private Country country;
     @ManyToMany
+    @JsonSerialize(using = PropertySerializer.class)
     @Basic(fetch = FetchType.LAZY)
     @JoinTable(
             name = "matching",
@@ -126,6 +131,11 @@ public class User {
     public void addProperty(Property property){
         if(Objects.isNull(properties)){
             properties = new ArrayList<>();
+        }
+        for(Property p:properties){
+            if(property.equals(p)){
+                return;
+            }
         }
         properties.add(property);
     }

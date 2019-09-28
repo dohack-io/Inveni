@@ -1,1 +1,0 @@
-INSERT INTO Country (name) VALUES ('Deutschland');
