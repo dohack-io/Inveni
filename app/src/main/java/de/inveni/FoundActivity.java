@@ -2,6 +2,7 @@ package de.inveni;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,8 +68,20 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_found, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item2:
+            case R.id.item3:
+                //TODO
+                return true;
+            default:
+                return true;
+        }
     }
 
     @Override

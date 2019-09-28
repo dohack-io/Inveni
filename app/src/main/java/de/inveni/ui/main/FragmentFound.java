@@ -7,17 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.inveni.FoundActivity;
 import de.inveni.R;
 
 public class FragmentFound extends Fragment {
+
+    private List<String> values = new ArrayList<>();
 
     public FragmentFound() {
     }
@@ -37,6 +43,9 @@ public class FragmentFound extends Fragment {
     public void onViewCreated(View view, final Bundle savedInstanceState) {
         final ListView listView = view.findViewById(R.id.listView);
 
+        values.add("Regenschrim");
+        values.add("Uhr");
+
         final CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,6 +53,14 @@ public class FragmentFound extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("LOST-CLICKED:" + position);
                 gotoFound(customAdapter.getItem(position));
+            }
+        });
+
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -60,16 +77,14 @@ public class FragmentFound extends Fragment {
 
     class CustomAdapter extends BaseAdapter {
 
-        private String[] titles = new String[getCount()];
-
         @Override
         public int getCount() {
-            return 10;
+            return values.size();
         }
 
         @Override
         public String getItem(int pos) {
-            return titles[pos];
+            return values.get(pos);
         }
 
         @Override
@@ -79,22 +94,13 @@ public class FragmentFound extends Fragment {
 
         @Override
         public View getView(final int pos, View view, ViewGroup viewGroup) {
-            view = getLayoutInflater().inflate(R.layout.listview_item, null);
+            view = getLayoutInflater().inflate(R.layout.listview_item_found, null);
 
             ImageView imageView = view.findViewById(R.id.imageView);
 
-            ImageButton imageButton = view.findViewById(R.id.imageButton);
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("FOUND-OPTIONS:" + pos);
-                }
-            });
-
             final TextView textView = view.findViewById(R.id.textView);
             textView.setSelected(true);
-            textView.setText("Braunes Portmonee");
-            titles[pos] = textView.getText().toString();
+            textView.setText(values.get(pos));
 
             return view;
         }
