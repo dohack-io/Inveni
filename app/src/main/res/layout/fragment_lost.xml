@@ -6,12 +6,11 @@
     tools:context=".ui.main.FragmentLost">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/colorPrimary"
         android:dividerHeight="1dp" />
-
 
 </FrameLayout>
 

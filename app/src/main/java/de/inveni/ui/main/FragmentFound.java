@@ -40,7 +40,7 @@ public class FragmentFound extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("CLICKED:" + position);
+                System.out.println("FOUND-CLICKED:" + position);
             }
         });
     }
@@ -72,7 +72,7 @@ public class FragmentFound extends Fragment {
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("OPTIONS:" + pos);
+                    System.out.println("FOUND-OPTIONS:" + pos);
                 }
             });
 

@@ -1,5 +1,6 @@
 package de.inveni.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import de.inveni.LostActivity;
 import de.inveni.R;
 
 public class FragmentLost extends Fragment {
@@ -33,23 +35,34 @@ public class FragmentLost extends Fragment {
 
     @Override
     public void onViewCreated(View view, final Bundle savedInstanceState) {
-        final ListView listView = view.findViewById(R.id.listView);
+        final ListView listView = view.findViewById(R.id.listView2);
 
         FragmentLost.CustomAdapter customAdapter = new FragmentLost.CustomAdapter();
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("CLICKED:" + position);
+                System.out.println("LOST-CLICKED:" + position);
+                gotoLost(position);
             }
         });
+    }
+
+    private void gotoLost(int id) {
+        Intent intent = new Intent(getActivity(), LostActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("key", id);
+        intent.putExtras(b);
+
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
     class CustomAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return 10;
+            return 2;
         }
 
         @Override
@@ -72,13 +85,13 @@ public class FragmentLost extends Fragment {
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("OPTIONS:" + pos);
+                    System.out.println("LOST-OPTIONS:" + pos);
                 }
             });
 
             final TextView textView = view.findViewById(R.id.textView);
             textView.setSelected(true);
-            textView.setText("Braunes Portmonee");
+            textView.setText("Gelbe Gummiente");
 
             return view;
         }

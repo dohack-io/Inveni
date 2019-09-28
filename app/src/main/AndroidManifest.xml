@@ -19,6 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LostActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCgmMfqV2ZMCAlgJifZ8I27rmFInUjUMDY" />
     </application>
 
 </manifest>
