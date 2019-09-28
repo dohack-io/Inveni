@@ -19,7 +19,7 @@ public class Property {
     private double longitude;
     private String description;
     private String imageUrl;
-    @ManyToMany(mappedBy = "properties")
+    @ManyToMany(mappedBy = "properties",fetch = FetchType.LAZY)
     private List<User> users;
 
     public Property(){
@@ -103,5 +103,11 @@ public class Property {
             users = new ArrayList<>();
         }
         users.add(user);
+    }
+
+    public void removeUser(User user){
+        if (Objects.nonNull(users)) {
+            users.remove(user);
+        }
     }
 }

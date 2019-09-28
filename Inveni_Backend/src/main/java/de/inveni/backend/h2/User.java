@@ -18,10 +18,10 @@ public class User {
     private String plz;
     private String email;
     private String phone;
-    private String description;
     @ManyToOne
     private Country country;
     @ManyToMany
+    @Basic(fetch = FetchType.LAZY)
     @JoinTable(
             name = "matching",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -30,6 +30,17 @@ public class User {
 
     public User() {
 
+    }
+
+    public User(String name, String givenName, String street, String houseNumber, String plz, String email, String phone, Country country) {
+        this.name = name;
+        this.givenName = givenName;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.plz = plz;
+        this.email = email;
+        this.phone = phone;
+        this.country = country;
     }
 
     public Long getId() {
@@ -46,14 +57,6 @@ public class User {
 
     public void setGivenName(String givenName) {
         this.givenName = givenName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getName() {
@@ -120,11 +123,17 @@ public class User {
         this.properties = properties;
     }
 
-    public void addUser(Property property){
+    public void addProperty(Property property){
         if(Objects.isNull(properties)){
             properties = new ArrayList<>();
         }
         properties.add(property);
+    }
+
+    public void removeProperty(Property property){
+        if(Objects.nonNull(properties)){
+            properties.remove(property);
+        }
     }
 }
 
