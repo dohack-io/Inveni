@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LostActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FoundActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     private MapView mapView;
@@ -24,7 +24,7 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_lost);
+        setContentView(R.layout.activity_found);
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
@@ -47,16 +47,16 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
         lat = 51.504350;
         lon = 7.526680;
 
-        TextView textViewTitle = findViewById(R.id.textView_title);
+        TextView textViewTitle = findViewById(R.id.textView_title_found);
         textViewTitle.setText(title);
 
-        TextView textViewDate = findViewById(R.id.textView_date);
+        TextView textViewDate = findViewById(R.id.textView_date_found);
         textViewDate.setText(parseDate(date));
 
-        TextView textViewDesc = findViewById(R.id.textView_desc);
+        TextView textViewDesc = findViewById(R.id.textView_desc_found);
         textViewDesc.setText(desc);
 
-        mapView = findViewById(R.id.mapView);
+        mapView = findViewById(R.id.mapView_found);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
     }

@@ -1,5 +1,6 @@
 package de.inveni.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import de.inveni.FoundActivity;
 import de.inveni.R;
 
 public class FragmentFound extends Fragment {
@@ -35,17 +37,30 @@ public class FragmentFound extends Fragment {
     public void onViewCreated(View view, final Bundle savedInstanceState) {
         final ListView listView = view.findViewById(R.id.listView);
 
-        CustomAdapter customAdapter = new CustomAdapter();
+        final CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("FOUND-CLICKED:" + position);
+                System.out.println("LOST-CLICKED:" + position);
+                gotoFound(customAdapter.getItem(position));
             }
         });
     }
 
+    private void gotoFound(String title) {
+        Intent intent = new Intent(getActivity(), FoundActivity.class);
+        Bundle b = new Bundle();
+        b.putString("title", title);
+        intent.putExtras(b);
+
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+    }
+
     class CustomAdapter extends BaseAdapter {
+
+        private String[] titles = new String[getCount()];
 
         @Override
         public int getCount() {
@@ -53,8 +68,8 @@ public class FragmentFound extends Fragment {
         }
 
         @Override
-        public Object getItem(int pos) {
-            return null;
+        public String getItem(int pos) {
+            return titles[pos];
         }
 
         @Override
@@ -79,6 +94,7 @@ public class FragmentFound extends Fragment {
             final TextView textView = view.findViewById(R.id.textView);
             textView.setSelected(true);
             textView.setText("Braunes Portmonee");
+            titles[pos] = textView.getText().toString();
 
             return view;
         }
