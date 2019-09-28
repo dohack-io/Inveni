@@ -2,4 +2,6 @@
     <string name="app_name">Inveni</string>
     <string name="tab_text_1">LOST</string>
     <string name="tab_text_2">FOUND</string>
+
+    <string name="image_content_description">IMAGE</string>
 </resources>
