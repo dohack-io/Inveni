@@ -72,7 +72,9 @@ public class RequestManager {
     }
 
     public static Property addProperty(String title, long date, String description, double latitude, double longitude, String imageBase64) {
-        String request = RequestManager.request(ConnectionType.POST, "addproperty", "{\"finderID\":" + currentUser.getId() + ",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}");
+        String body = "{\"finderID\":" + currentUser.getId() + ",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}";
+        System.out.println(body);
+        String request = RequestManager.request(ConnectionType.POST, "addproperty", body);
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
         } catch (NullPointerException | JSONException e) {
