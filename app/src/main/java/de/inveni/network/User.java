@@ -13,9 +13,9 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private Country country;
-    private List<Property> properties;
+    private List<Long> properties;
 
-    public User(long id, String name, String givenName, String street, String houseNumber, String plz, String email, String phone, Country country, List<Property> properties) {
+    public User(long id, String name, String givenName, String street, String houseNumber, String plz, String email, String phone, Country country, List<Long> properties) {
         this.id = id;
         this.name = name;
         this.givenName = givenName;
@@ -65,7 +65,7 @@ public class User implements Serializable {
         return country;
     }
 
-    public List<Property> getProperties() {
+    public List<Long> getProperties() {
         return properties;
     }
 }

@@ -50,10 +50,10 @@ public class Toolbox {
             JSONObject country = jsonRoot.getJSONObject("country");
             JSONArray properties = jsonRoot.getJSONArray("properties");
 
-            ArrayList<Property> _properties = new ArrayList<>();
+            ArrayList<Long> _properties = new ArrayList<>();
             if (!lazy) {
                 for (int i = 0; i < properties.length(); i++) {
-                    _properties.add(Toolbox.jsonToProperty(properties.getJSONObject(i), true));
+                    _properties.add(properties.getLong(i));
                 }
             }
 

@@ -30,13 +30,11 @@ public class RequestManager {
             connection.setRequestMethod(type.toString());
             in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
             if(body != null) {
                 connection.setDoOutput(true);
                 out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-            }
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            if(body != null){
                 out.write(body);
             }
             while ((inputLine = in.readLine()) != null) {
@@ -88,6 +86,15 @@ public class RequestManager {
 
     public static Property fetchProperty(long id) {
         String request = RequestManager.request(ConnectionType.GET, "fetchpropertybyid?id=" + id, null);
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static Property fetchUser(long id) {
+        String request = RequestManager.request(ConnectionType.GET, "fetchuserbyid?id=" + id, null);
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
         } catch (NullPointerException | JSONException e) {
