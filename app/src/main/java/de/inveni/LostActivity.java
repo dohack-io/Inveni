@@ -1,9 +1,14 @@
 package de.inveni;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -59,16 +64,42 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+
+        Button button = findViewById(R.id.button_finder);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LostActivity.this, ContactActivity.class));
+                LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+            }
+        });
     }
 
     private String parseDate(long l) {
-        return "Samstag";
+        String date = String.valueOf(l);
+        if (date.length() < 12) {
+            return parseDate(201909291253L);
+        }
+        return date.substring(6, 8) + "." + date.substring(4, 6) + "." + date.substring(0, 4) + " | " + date.substring(8, 10) + ":" + date.substring(10) + " Uhr";
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_lost, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item99:
+                return true;
+            case R.id.item90:
+                startActivity(new Intent(LostActivity.this, ContactActivity.class));
+                LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

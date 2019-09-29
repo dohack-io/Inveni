@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.inveni.CreateActivity;
 import de.inveni.FoundActivity;
 import de.inveni.R;
 
@@ -60,7 +61,8 @@ public class FragmentFound extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getActivity(), CreateActivity.class));
+                getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
     }

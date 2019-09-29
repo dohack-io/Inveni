@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import de.inveni.LostActivity;
 import de.inveni.R;
+import de.inveni.SearchActivity;
 
 public class FragmentLost extends Fragment {
 
@@ -56,6 +58,16 @@ public class FragmentLost extends Fragment {
                 gotoLost(customAdapter.getItem(position));
             }
         });
+
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.fabian);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                getActivity().overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+            }
+        });
+
     }
 
     private void gotoLost(String title) {

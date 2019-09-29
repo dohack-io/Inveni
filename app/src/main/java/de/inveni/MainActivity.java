@@ -1,8 +1,11 @@
 package de.inveni;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,4 +35,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item000:
+                return true;
+            case R.id.item100:
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                MainActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                return true;
+            case R.id.item200:
+                startActivity(new Intent(MainActivity.this, CreateActivity.class));
+                MainActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
