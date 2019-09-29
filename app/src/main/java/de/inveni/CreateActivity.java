@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import de.inveni.network.Property;
+import de.inveni.network.RequestManager;
+import de.inveni.ui.main.FragmentFound;
+
 public class CreateActivity extends AppCompatActivity {
 
     @Override
@@ -39,10 +43,10 @@ public class CreateActivity extends AppCompatActivity {
                 try {
                     Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    TextView textView = findViewById(R.id.textView1);
+                    TextView textView = findViewById(R.id.textView__lat);
                     textView.setText(location.getLatitude() + "");
 
-                    TextView textView2 = findViewById(R.id.textView31);
+                    TextView textView2 = findViewById(R.id.textView__lon);
                     textView2.setText(location.getLongitude() + "");
 
                 } catch (SecurityException e) {
@@ -51,12 +55,17 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
+        TextView textViewTitle = findViewById(R.id.textView__title);
+        TextView textViewDesc = findViewById(R.id.textView__desc);
+        TextView textViewLat = findViewById(R.id.textView__lat);
+        TextView textViewLon = findViewById(R.id.textView__lon);
+
         Button button_create = findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CREATE NEW FOUND PROPERTY
-               // todo
+                RequestManager.
+                FragmentFound.values.add(new Property());
             }
         });
     }
