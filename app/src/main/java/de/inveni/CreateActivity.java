@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+
+import de.inveni.network.Property;
 import de.inveni.network.RequestManager;
 import de.inveni.ui.main.FragmentFound;
 
@@ -64,9 +67,14 @@ public class CreateActivity extends AppCompatActivity {
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentFound.values.add(RequestManager.addProperty(textViewTitle.getText().toString(),
+                RequestManager.addProperty(textViewTitle.getText().toString(),
                         0L, textViewDesc.getText().toString(), Double.valueOf(textViewLat.getText().toString()),
-                        Double.valueOf(textViewLon.getText().toString()), ""));
+                        Double.valueOf(textViewLon.getText().toString()), "");
+
+
+                FragmentFound.values.add(new Property(1L, RequestManager.getCurrentUser(), textViewTitle.getText().toString(),
+                        0L, Double.valueOf(textViewLat.getText().toString()),
+                        Double.valueOf(textViewLon.getText().toString()), textViewDesc.getText().toString(), "", new ArrayList<Long>()));
 
                 startActivity(new Intent(CreateActivity.this, MainActivity.class));
                 CreateActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
