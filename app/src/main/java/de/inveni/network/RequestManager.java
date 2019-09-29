@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,8 +37,12 @@ public class RequestManager {
             StringBuffer content = new StringBuffer();
             if (body != null) {
                 connection.setDoOutput(true);
-                out = new DataOutputStream(connection.getOutputStream());
-                out.writeBytes(body);
+                //out = new DataOutputStream(connection.getOutputStream());
+                //out.writeBytes(body);
+                try(OutputStream os = connection.getOutputStream()) {
+                    byte[] input = body.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
             }
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
@@ -66,7 +71,7 @@ public class RequestManager {
         }
     }
 
-    public static Property addProperty(String title, String date, String description, double latitude, double longitude, String imageBase64) {
+    public static Property addProperty(String title, long date, String description, double latitude, double longitude, String imageBase64) {
         String request = RequestManager.request(ConnectionType.POST, "addproperty", "{\"finderID\":" + currentUser.getId() + ",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}");
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
