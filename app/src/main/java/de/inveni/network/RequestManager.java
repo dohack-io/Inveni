@@ -31,10 +31,6 @@ public class RequestManager {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod(type.toString());
-            in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
             if (body != null) {
                 connection.setDoOutput(true);
                 DataOutputStream os = new DataOutputStream(connection.getOutputStream());
@@ -44,6 +40,10 @@ public class RequestManager {
                 os.flush();
                 os.close();
             }
+            in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }
