@@ -14,6 +14,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
+import de.inveni.network.Country;
+import de.inveni.network.RequestManager;
+import de.inveni.network.User;
 import de.inveni.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RequestManager.setCurrentUser(new User(2, "nocon", "noc",
+                "Flughafenstraße", "104d", "44309", "",
+                "", new Country(1, "Deutschland"), new ArrayList<Long>()));
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

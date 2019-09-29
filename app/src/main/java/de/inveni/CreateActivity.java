@@ -2,6 +2,7 @@ package de.inveni;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import de.inveni.network.Property;
 import de.inveni.network.RequestManager;
 import de.inveni.ui.main.FragmentFound;
 
@@ -55,17 +55,21 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
-        TextView textViewTitle = findViewById(R.id.textView__title);
-        TextView textViewDesc = findViewById(R.id.textView__desc);
-        TextView textViewLat = findViewById(R.id.textView__lat);
-        TextView textViewLon = findViewById(R.id.textView__lon);
+        final TextView textViewTitle = findViewById(R.id.textView__title);
+        final TextView textViewDesc = findViewById(R.id.textView__desc);
+        final TextView textViewLat = findViewById(R.id.textView__lat);
+        final TextView textViewLon = findViewById(R.id.textView__lon);
 
         Button button_create = findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestManager.
-                FragmentFound.values.add(new Property());
+                FragmentFound.values.add(RequestManager.addProperty(textViewTitle.getText().toString(),
+                        0L, textViewDesc.getText().toString(), Double.valueOf(textViewLat.getText().toString()),
+                        Double.valueOf(textViewLon.getText().toString()), ""));
+
+                startActivity(new Intent(CreateActivity.this, MainActivity.class));
+                CreateActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
     }

@@ -36,10 +36,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                RequestManager.setCurrentUser(new User(2, "nocon", "noc",
-                        "Flughafenstraße", "104d", "44309", "",
-                        "", new Country(1, "Deutschland"), new ArrayList<Long>()));
-
                 List<Property> results = RequestManager.queryProperties(201909200000L, 201909290000L,
                         tags.getText().toString(), Double.valueOf(lat.getText().toString()),
                         Double.valueOf(lon.getText().toString()), Double.valueOf(rad.getText().toString()));
