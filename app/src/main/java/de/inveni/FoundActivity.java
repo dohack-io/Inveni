@@ -1,8 +1,13 @@
 package de.inveni;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +19,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoundActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -31,9 +39,9 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-        String title = "-";
-        long date = 0;
-        String desc = "-";
+        String title;
+        long date;
+        String desc;
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -43,10 +51,15 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
             title = bundle.getString("title");
             date = bundle.getLong("date");
             desc = bundle.getString("desc");
-        }
+        } else {
 
-        lat = 51.504350;
-        lon = 7.526680;
+            title = "-";
+            desc = "-";
+            date = 201909291253l;
+
+            lat = 51.504350;
+            lon = 7.526680;
+        }
 
         TextView textViewTitle = findViewById(R.id.textView_title_found);
         textViewTitle.setText(title);
@@ -60,10 +73,31 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
         mapView = findViewById(R.id.mapView_found);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+
+        final List<String> list = new ArrayList<>();
+        list.add("Mercedes");
+        list.add("AMG");
+        list.add("Ich bin dabei!");
+
+        ListView scrollView = findViewById(R.id.possible_matches);
+        scrollView.setAdapter(new ArrayAdapter<>(FoundActivity.this, android.R.layout.simple_list_item_1, list));
+        scrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FoundActivity.this, ContactActivity.class);
+                intent.putExtra("name", list.get(position));
+                startActivity(intent);
+                FoundActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+            }
+        });
     }
 
     private String parseDate(long l) {
-        return "Samstag";
+        String date = String.valueOf(l);
+        if (date.length() < 12) {
+            return parseDate(201909291253L);
+        }
+        return date.substring(6, 8) + "." + date.substring(4, 6) + "." + date.substring(0, 4) + " | " + date.substring(8, 10) + ":" + date.substring(10) + " Uhr";
     }
 
     @Override
@@ -135,18 +169,16 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap gmap = googleMap;
-
         LatLngBounds ADELAIDE = new LatLngBounds(
                 new LatLng(lat - 0.01, lon - 0.01), new LatLng(lat + 0.01, lon + 0.01));
-        gmap.setLatLngBoundsForCameraTarget(ADELAIDE);
-        gmap.moveCamera(CameraUpdateFactory.zoomTo(13.5f));
+        googleMap.setLatLngBoundsForCameraTarget(ADELAIDE);
+        googleMap.moveCamera(CameraUpdateFactory.zoomTo(13.5f));
 
-        gmap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title("Found here!"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title("Found here!"));
 
 
         LatLng pos = new LatLng(lat, lon);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
     }
 
 }

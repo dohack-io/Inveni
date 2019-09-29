@@ -120,6 +120,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp" />
 
+            <Button
+                android:id="@+id/button_finder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_owner" />
+
         </LinearLayout>
     </ScrollView>
 

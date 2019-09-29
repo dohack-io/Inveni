@@ -10,18 +10,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 
 public class RequestManager {
 
 
-    public enum ConnectionType{
-        GET, POST;
-    }
-
     private static User currentUser;
 
-    private static String request(ConnectionType type, String address){
+    private static String request(ConnectionType type, String address) {
         HttpURLConnection connection;
         BufferedReader in;
         try {
@@ -39,7 +34,7 @@ public class RequestManager {
             in.close();
             connection.disconnect();
             return content.toString();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -56,5 +51,9 @@ public class RequestManager {
 
     public static void setCurrentUser(User currentUser) {
         RequestManager.currentUser = currentUser;
+    }
+
+    public enum ConnectionType {
+        GET, POST;
     }
 }
