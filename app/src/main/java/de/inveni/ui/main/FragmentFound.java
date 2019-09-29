@@ -21,10 +21,11 @@ import java.util.List;
 import de.inveni.CreateActivity;
 import de.inveni.FoundActivity;
 import de.inveni.R;
+import de.inveni.network.Property;
 
 public class FragmentFound extends Fragment {
 
-    private List<String> values = new ArrayList<>();
+    public static List<Property> values = new ArrayList<>();
 
     public FragmentFound() {
     }
@@ -43,9 +44,6 @@ public class FragmentFound extends Fragment {
     @Override
     public void onViewCreated(View view, final Bundle savedInstanceState) {
         final ListView listView = view.findViewById(R.id.listView);
-
-        values.add("Regenschrim");
-        values.add("Uhr");
 
         final CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
@@ -67,10 +65,15 @@ public class FragmentFound extends Fragment {
         });
     }
 
-    private void gotoFound(String title) {
+    private void gotoFound(Property property) {
         Intent intent = new Intent(getActivity(), FoundActivity.class);
+
         Bundle b = new Bundle();
-        b.putString("title", title);
+        b.putString("title", property.getTitle());
+        b.putDouble("lat", property.getLatitude());
+        b.putDouble("lon", property.getLongitude());
+        b.putString("desc", property.getDescription());
+        b.putLong("date", property.getDate());
         intent.putExtras(b);
 
         startActivity(intent);
@@ -85,7 +88,7 @@ public class FragmentFound extends Fragment {
         }
 
         @Override
-        public String getItem(int pos) {
+        public Property getItem(int pos) {
             return values.get(pos);
         }
 
@@ -102,7 +105,7 @@ public class FragmentFound extends Fragment {
 
             final TextView textView = view.findViewById(R.id.textView);
             textView.setSelected(true);
-            textView.setText(values.get(pos));
+            textView.setText(values.get(pos).getTitle());
 
             return view;
         }
