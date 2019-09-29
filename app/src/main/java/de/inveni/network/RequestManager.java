@@ -37,12 +37,12 @@ public class RequestManager {
             StringBuffer content = new StringBuffer();
             if (body != null) {
                 connection.setDoOutput(true);
-                //out = new DataOutputStream(connection.getOutputStream());
-                //out.writeBytes(body);
-                try(OutputStream os = connection.getOutputStream()) {
-                    byte[] input = body.getBytes("utf-8");
-                    os.write(input, 0, input.length);
-                }
+                DataOutputStream os = new DataOutputStream(connection.getOutputStream());
+                //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                os.writeBytes(body.toString());
+
+                os.flush();
+                os.close();
             }
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
