@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/listView2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginStart="0dp"
@@ -27,10 +27,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"
-            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
             android:clickable="true"
             android:focusable="true"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@android:drawable/ic_menu_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

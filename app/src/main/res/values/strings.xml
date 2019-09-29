@@ -10,4 +10,13 @@
     <string name="menu_found_gtlpo">Given to lost property office</string>
 
     <string name="image_content_description">IMAGE</string>
+
+    <string name="contact_name">Name:</string>
+    <string name="contact_family_name">Given name:</string>
+    <string name="contact_street">Street:</string>
+    <string name="contact_number">House number:</string>
+    <string name="contact_plz">PLZ:</string>
+    <string name="contact_email">Email:</string>
+    <string name="contact_phone">Phone number:</string>
+    <string name="contact_country">Country:</string>
 </resources>
