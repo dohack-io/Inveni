@@ -1,8 +1,8 @@
 package de.inveni.data;
 
-import de.inveni.data.model.LoggedInUser;
-
 import java.io.IOException;
+
+import de.inveni.data.model.LoggedInUser;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

@@ -1,16 +1,8 @@
 package de.inveni.ui.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -22,9 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import de.inveni.MainActivity;
 import de.inveni.R;
-import de.inveni.ui.login.LoginViewModel;
-import de.inveni.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -102,8 +99,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    if (loginViewModel.login(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString())) {
+
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        LoginActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                    }
                 }
                 return false;
             }
@@ -113,8 +114,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                if (loginViewModel.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString())) {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    LoginActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                }
             }
         });
     }
