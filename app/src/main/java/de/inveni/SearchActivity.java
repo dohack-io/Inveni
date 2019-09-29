@@ -46,8 +46,6 @@ public class SearchActivity extends AppCompatActivity {
 
                 FragmentLost.values.addAll(results);
 
-                System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEE: " + FragmentLost.values.size());
-
                 startActivity(new Intent(SearchActivity.this, MainActivity.class));
                 SearchActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
