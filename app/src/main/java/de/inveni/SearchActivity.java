@@ -1,5 +1,6 @@
 package de.inveni;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -15,9 +16,11 @@ import de.inveni.network.Country;
 import de.inveni.network.Property;
 import de.inveni.network.RequestManager;
 import de.inveni.network.User;
+import de.inveni.ui.main.FragmentLost;
 
 public class SearchActivity extends AppCompatActivity {
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_lost);
@@ -41,9 +44,12 @@ public class SearchActivity extends AppCompatActivity {
                         tags.getText().toString(), Double.valueOf(lat.getText().toString()),
                         Double.valueOf(lon.getText().toString()), Double.valueOf(rad.getText().toString()));
 
-                
+                FragmentLost.values.addAll(results);
 
-                //TODO USE RESUTSLLT
+                System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEE: " + FragmentLost.values.size());
+
+                startActivity(new Intent(SearchActivity.this, MainActivity.class));
+                SearchActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
     }

@@ -26,6 +26,7 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     private MapView mapView;
     private double lat, lon;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,10 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
             title = bundle.getString("title");
             date = bundle.getLong("date");
             desc = bundle.getString("desc");
-           // image = bundle.getString("img");
+            // image = bundle.getString("img");
+
+            user = (User) bundle.getSerializable("finder");
+
         } else {
             lat = 51.504350;
             lon = 7.526680;
@@ -79,19 +83,17 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void gotoContactPage() {
 
-        //User user = new User();//TODO GET USER WITH GIVEN PROPERTY
+        Intent intent = new Intent(LostActivity.this, ContactActivity.class);
+        intent.putExtra("name", user.getName());
+        intent.putExtra("given_name", user.getGivenName());
+        intent.putExtra("street", user.getStreet());
+        intent.putExtra("number", user.getHouseNumber());
+        intent.putExtra("plz", user.getPlz());
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("phone", user.getPhone());
+        intent.putExtra("country", user.getCountry().getName());
 
-       // Intent intent = new Intent(LostActivity.this, ContactActivity.class);
-       // intent.putExtra("name", user.getName());
-       // intent.putExtra("given_name", user.getGivenName());
-      //  intent.putExtra("street", user.getStreet());
-       // intent.putExtra("number", user.getHouseNumber());
-       // intent.putExtra("plz", user.getPlz());
-       // intent.putExtra("email", user.getEmail());
-       // intent.putExtra("phone", user.getPhone());
-       // intent.putExtra("country", user.getCountry().getName());
-
-       // startActivity(intent);
+        startActivity(intent);
         LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 

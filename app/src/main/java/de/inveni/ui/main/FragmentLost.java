@@ -23,10 +23,11 @@ import java.util.List;
 import de.inveni.LostActivity;
 import de.inveni.R;
 import de.inveni.SearchActivity;
+import de.inveni.network.Property;
 
 public class FragmentLost extends Fragment {
 
-    private List<String> values = new ArrayList<>();
+    public static List<Property> values = new ArrayList<>();
 
     public FragmentLost() {
     }
@@ -45,9 +46,6 @@ public class FragmentLost extends Fragment {
     @Override
     public void onViewCreated(View view, final Bundle savedInstanceState) {
         final ListView listView = view.findViewById(R.id.listView2);
-
-        values.add("Bombe");
-        values.add("Grüner Spargel");
 
         final FragmentLost.CustomAdapter customAdapter = new FragmentLost.CustomAdapter();
         listView.setAdapter(customAdapter);
@@ -70,18 +68,17 @@ public class FragmentLost extends Fragment {
 
     }
 
-    private void gotoLost(String title) {
+    private void gotoLost(Property property) {
         Intent intent = new Intent(getActivity(), LostActivity.class);
 
-        //   Property property = new Property();//title
-
         Bundle b = new Bundle();
-        //  b.putString("title", property.getTitle());
-        //  b.putString("desc", property.getDescription());
-        // b.putDouble("lat", property.getLatitude());
-        // b.putDouble("lon", property.getLongitude());
-        // b.putLong("date", property.getDate());
-        //  b.putString("img", property.getImageBase64());
+        b.putString("title", property.getTitle());
+        b.putString("desc", property.getDescription());
+        b.putDouble("lat", property.getLatitude());
+        b.putDouble("lon", property.getLongitude());
+        b.putLong("date", property.getDate());
+        b.putString("img", property.getImageBase64());
+        b.putSerializable("finder", property.getFinderID());
 
         intent.putExtras(b);
 
@@ -97,7 +94,7 @@ public class FragmentLost extends Fragment {
         }
 
         @Override
-        public String getItem(int pos) {
+        public Property getItem(int pos) {
             return values.get(pos);
         }
 
@@ -126,7 +123,7 @@ public class FragmentLost extends Fragment {
 
             final TextView textView = view.findViewById(R.id.textView);
             textView.setSelected(true);
-            textView.setText(values.get(pos));
+            textView.setText(values.get(pos).getTitle());
 
             return view;
         }
