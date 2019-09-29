@@ -20,10 +20,10 @@ public class Toolbox {
             JSONArray possibleOwners = jsonRoot.getJSONArray("users");
             JSONObject finder = jsonRoot.getJSONObject("finderID");
 
-            List<User> _possibleOwners = new ArrayList<>();
+            List<Long> _possibleOwners = new ArrayList<>();
             if (!lazy) {
                 for (int i = 0; i < possibleOwners.length(); i++) {
-                    _possibleOwners.add(Toolbox.jsonToUser(possibleOwners.getJSONObject(i), true));
+                    _possibleOwners.add(possibleOwners.getLong(i));
                 }
             }
 

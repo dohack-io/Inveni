@@ -11,9 +11,9 @@ public class Property {
     private double longitude;
     private String description;
     private String imageBase64;
-    private List<User> users;
+    private List<Long> users;
 
-    public Property(Long id, User finderID, String title, long date, double latitude, double longitude, String description, String imageBase64, List<User> users) {
+    public Property(Long id, User finderID, String title, long date, double latitude, double longitude, String description, String imageBase64, List<Long> users) {
         this.id = id;
         this.finderID = finderID;
         this.title = title;
@@ -57,7 +57,7 @@ public class Property {
         return imageBase64;
     }
 
-    public List<User> getUsers() {
+    public List<Long> getUsers() {
         return users;
     }
 }
