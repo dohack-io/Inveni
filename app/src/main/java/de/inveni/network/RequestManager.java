@@ -39,7 +39,7 @@ public class RequestManager {
                 connection.setDoOutput(true);
                 DataOutputStream os = new DataOutputStream(connection.getOutputStream());
                 //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-                os.writeBytes(body.toString());
+                os.writeBytes(body);
 
                 os.flush();
                 os.close();
