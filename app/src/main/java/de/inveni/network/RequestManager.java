@@ -74,8 +74,28 @@ public class RequestManager {
         }
     }
 
+    public static Property addPossibleOwner(long userID, long propertyID) {
+        String request = RequestManager.request(ConnectionType.POST, "addpossibleowner", "{\"userID\":" + userID + ",\"propertyID\":" + propertyID + "}");
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Property removePossibleOwner(long userID, long propertyID) {
+        String request = RequestManager.request(ConnectionType.POST, "removepossibleowner", "{\"userID\":" + userID + ",\"propertyID\":" + propertyID + "}");
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static Property removeProperty(long id) {
-        String request = RequestManager.request(ConnectionType.GET, "deleteProperty?id=" + id, null);
+        String request = RequestManager.request(ConnectionType.GET, "deletepropertybyid?id=" + id, null);
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
         } catch (NullPointerException | JSONException e) {
@@ -93,8 +113,19 @@ public class RequestManager {
             return null;
         }
     }
+
     public static Property fetchUser(long id) {
         String request = RequestManager.request(ConnectionType.GET, "fetchuserbyid?id=" + id, null);
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Property deleteUser(long id) {
+        String request = RequestManager.request(ConnectionType.GET, "deleteuserbyid?id=" + id, null);
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
         } catch (NullPointerException | JSONException e) {
