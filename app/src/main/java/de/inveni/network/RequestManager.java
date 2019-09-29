@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -23,20 +24,20 @@ public class RequestManager {
     private static String request(ConnectionType type, String command, String body) {
         HttpURLConnection connection;
         BufferedReader in;
-        BufferedWriter out;
+        DataOutputStream out;
         try {
             URL url = new URL(IP + command);
             connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
             connection.setRequestMethod(type.toString());
             in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
             String inputLine;
             StringBuffer content = new StringBuffer();
-            if(body != null) {
-                connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            if (body != null) {
                 connection.setDoOutput(true);
-                out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-                out.write(body);
+                out = new DataOutputStream(connection.getOutputStream());
+                out.writeBytes(body);
             }
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
@@ -66,7 +67,7 @@ public class RequestManager {
     }
 
     public static Property addProperty(String title, String date, String description, double latitude, double longitude, String imageBase64) {
-        String request = RequestManager.request(ConnectionType.POST, "addproperty", "{\"finderID\":"+ currentUser.getId() +",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}");
+        String request = RequestManager.request(ConnectionType.POST, "addproperty", "{\"finderID\":" + currentUser.getId() + ",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}");
         try {
             return Toolbox.jsonToProperty(new JSONObject(request), false);
         } catch (NullPointerException | JSONException e) {
