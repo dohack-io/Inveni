@@ -23,7 +23,7 @@
                 android:text="@string/search_tags" />
 
             <EditText
-                android:id="@+id/textView3"
+                android:id="@+id/textview_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -53,10 +53,46 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/search_date" />
+
+            <EditText
+                android:id="@+id/textview_search_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="date" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#00000000" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#00000000" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/create_lat" />
 
             <EditText
-                android:id="@+id/textView33"
+                android:id="@+id/textview_search_lat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,7 +125,7 @@
                 android:text="@string/create_lon" />
 
             <EditText
-                android:id="@+id/textView313"
+                android:id="@+id/textview_search_lon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -122,7 +158,7 @@
                 android:text="@string/search_rad" />
 
             <EditText
-                android:id="@+id/textView13"
+                android:id="@+id/textview_search_rad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -165,6 +201,7 @@
             android:background="#00000000" />
 
         <Button
+            android:id="@+id/button_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/search" />

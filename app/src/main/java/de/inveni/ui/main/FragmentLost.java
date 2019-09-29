@@ -23,6 +23,7 @@ import java.util.List;
 import de.inveni.LostActivity;
 import de.inveni.R;
 import de.inveni.SearchActivity;
+import de.inveni.network.Property;
 
 public class FragmentLost extends Fragment {
 
@@ -72,8 +73,17 @@ public class FragmentLost extends Fragment {
 
     private void gotoLost(String title) {
         Intent intent = new Intent(getActivity(), LostActivity.class);
+
+        Property property = new Property();//title
+
         Bundle b = new Bundle();
-        b.putString("title", title);
+        b.putString("title", property.getTitle());
+        b.putString("desc", property.getDescription());
+        b.putDouble("lat", property.getLatitude());
+        b.putDouble("lon", property.getLongitude());
+        b.putLong("date", property.getDate());
+        b.putString("img", property.getImageBase64());
+
         intent.putExtras(b);
 
         startActivity(intent);

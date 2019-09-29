@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import de.inveni.network.User;
+
 public class LostActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -47,10 +49,11 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
             title = bundle.getString("title");
             date = bundle.getLong("date");
             desc = bundle.getString("desc");
+            image = bundle.getString("img");
+        } else {
+            lat = 51.504350;
+            lon = 7.526680;
         }
-
-        lat = 51.504350;
-        lon = 7.526680;
 
         TextView textViewTitle = findViewById(R.id.textView_title);
         textViewTitle.setText(title);
@@ -69,10 +72,27 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LostActivity.this, ContactActivity.class));
-                LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                gotoContactPage();
             }
         });
+    }
+
+    private void gotoContactPage() {
+
+        User user = new User();//TODO GET USER WITH GIVEN PROPERTY
+
+        Intent intent = new Intent(LostActivity.this, ContactActivity.class);
+        intent.putExtra("name", user.getName());
+        intent.putExtra("given_name", user.getGivenName());
+        intent.putExtra("street", user.getStreet());
+        intent.putExtra("number", user.getHouseNumber());
+        intent.putExtra("plz", user.getPlz());
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("phone", user.getPhone());
+        intent.putExtra("country", user.getCountry().getName());
+
+        startActivity(intent);
+        LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
     private String parseDate(long l) {
@@ -95,8 +115,7 @@ public class LostActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.item99:
                 return true;
             case R.id.item90:
-                startActivity(new Intent(LostActivity.this, ContactActivity.class));
-                LostActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+                gotoContactPage();
                 return true;
         }
         return super.onOptionsItemSelected(item);

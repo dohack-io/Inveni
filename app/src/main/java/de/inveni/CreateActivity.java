@@ -56,7 +56,8 @@ public class CreateActivity extends AppCompatActivity {
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CReate new ..
+                //TODO CREATE NEW FOUND PROPERTY
+                todo
             }
         });
     }

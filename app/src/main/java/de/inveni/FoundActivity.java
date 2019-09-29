@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.inveni.network.User;
+
 public class FoundActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -84,8 +86,19 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
         scrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                User user = new User();//TODO GET USER FROM PROPERTY
+
                 Intent intent = new Intent(FoundActivity.this, ContactActivity.class);
-                intent.putExtra("name", list.get(position));
+                intent.putExtra("name", user.getName());
+                intent.putExtra("given_name", user.getGivenName());
+                intent.putExtra("street", user.getStreet());
+                intent.putExtra("number", user.getHouseNumber());
+                intent.putExtra("plz", user.getPlz());
+                intent.putExtra("email", user.getEmail());
+                intent.putExtra("phone", user.getPhone());
+                intent.putExtra("country", user.getCountry().getName());
+
                 startActivity(intent);
                 FoundActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
