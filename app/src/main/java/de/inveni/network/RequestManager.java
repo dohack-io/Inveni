@@ -29,7 +29,7 @@ public class RequestManager {
         try {
             URL url = new URL(IP + command);
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod(type.toString());
             in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
