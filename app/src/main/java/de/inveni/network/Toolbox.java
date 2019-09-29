@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class Toolbox {
             String description = jsonRoot.getString("description");
             String imageBase64 = jsonRoot.getString("imageBase64");
             JSONArray possibleOwners = jsonRoot.getJSONArray("users");
-            JSONObject finder = jsonRoot.getJSONObject("finder");
+            JSONObject finder = jsonRoot.getJSONObject("finderID");
 
             List<User> _possibleOwners = new ArrayList<>();
             if (!lazy) {
@@ -52,7 +51,7 @@ public class Toolbox {
             JSONArray properties = jsonRoot.getJSONArray("properties");
 
             ArrayList<Property> _properties = new ArrayList<>();
-            if(!lazy) {
+            if (!lazy) {
                 for (int i = 0; i < properties.length(); i++) {
                     _properties.add(Toolbox.jsonToProperty(properties.getJSONObject(i), true));
                 }
@@ -60,7 +59,7 @@ public class Toolbox {
 
             Country _country = Toolbox.jsonToCountry(country);
 
-            return new User(id, name,givenName,street,houseNumber,plz,email,phone,_country,_properties);
+            return new User(id, name, givenName, street, houseNumber, plz, email, phone, _country, _properties);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -87,19 +87,19 @@ public class FoundActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                User user = new User();//TODO GET USER FROM PROPERTY
+             //   User user = new User();//TODO GET USER FROM PROPERTY
 
-                Intent intent = new Intent(FoundActivity.this, ContactActivity.class);
-                intent.putExtra("name", user.getName());
-                intent.putExtra("given_name", user.getGivenName());
-                intent.putExtra("street", user.getStreet());
-                intent.putExtra("number", user.getHouseNumber());
-                intent.putExtra("plz", user.getPlz());
-                intent.putExtra("email", user.getEmail());
-                intent.putExtra("phone", user.getPhone());
-                intent.putExtra("country", user.getCountry().getName());
+               // Intent intent = new Intent(FoundActivity.this, ContactActivity.class);
+               // intent.putExtra("name", user.getName());
+              //  intent.putExtra("given_name", user.getGivenName());
+               // intent.putExtra("street", user.getStreet());
+               // intent.putExtra("number", user.getHouseNumber());
+               // intent.putExtra("plz", user.getPlz());
+               // intent.putExtra("email", user.getEmail());
+               // intent.putExtra("phone", user.getPhone());
+              //  intent.putExtra("country", user.getCountry().getName());
 
-                startActivity(intent);
+               // startActivity(intent);
                 FoundActivity.this.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });

@@ -32,7 +32,6 @@ public class CreateActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(CreateActivity.this,
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             10);
-
                 }
 
                 LocationManager lm = (LocationManager) CreateActivity.this.getSystemService(Context.LOCATION_SERVICE);
@@ -57,7 +56,7 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO CREATE NEW FOUND PROPERTY
-                todo
+               // todo
             }
         });
     }

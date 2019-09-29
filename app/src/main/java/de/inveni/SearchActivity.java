@@ -8,25 +8,42 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.inveni.network.Country;
+import de.inveni.network.Property;
+import de.inveni.network.RequestManager;
+import de.inveni.network.User;
+
 public class SearchActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_lost);
 
-        TextView tags = findViewById(R.id.textview_search);
-        TextView lat = findViewById(R.id.textview_search_lat);
-        TextView lon = findViewById(R.id.textview_search_lon);
-        TextView rad = findViewById(R.id.textview_search_rad);
-        TextView date = findViewById(R.id.textview_search_date);
+        final TextView tags = findViewById(R.id.textview_search);
+        final TextView lat = findViewById(R.id.textview_search_lat);
+        final TextView lon = findViewById(R.id.textview_search_lon);
+        final TextView rad = findViewById(R.id.textview_search_rad);
+        final TextView date = findViewById(R.id.textview_search_date);
 
         Button searchButton = findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //tags+lat+lon+rad+date .getText()
-                //TODO CREATE NEW SEARCH
+                RequestManager.setCurrentUser(new User(2, "nocon", "noc",
+                        "Flughafenstraße", "104d", "44309", "",
+                        "", new Country(1, "Deutschland"), new ArrayList<Property>()));
+
+                List<Property> results = RequestManager.queryProperties(201909200000L, 201909290000L,
+                        tags.getText().toString(), Double.valueOf(lat.getText().toString()),
+                        Double.valueOf(lon.getText().toString()), Double.valueOf(rad.getText().toString()));
+
+                
+
+                //TODO USE RESUTSLLT
             }
         });
     }
