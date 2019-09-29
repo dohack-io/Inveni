@@ -33,6 +33,7 @@ public class RequestManager {
             String inputLine;
             StringBuffer content = new StringBuffer();
             if(body != null) {
+                connection.setRequestProperty("Content-Type", "application/json; utf-8");
                 connection.setDoOutput(true);
                 out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
                 out.write(body);
