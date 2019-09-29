@@ -2,10 +2,13 @@ package de.inveni.network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,17 +20,25 @@ public class RequestManager {
 
     private static User currentUser;
 
-    private static String request(ConnectionType type, String command) {
+    private static String request(ConnectionType type, String command, String body) {
         HttpURLConnection connection;
         BufferedReader in;
+        BufferedWriter out;
         try {
             URL url = new URL(IP + command);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(type.toString());
             in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
+            if(body != null) {
+                connection.setDoOutput(true);
+                out = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+            }
             String inputLine;
             StringBuffer content = new StringBuffer();
+            if(body != null){
+                out.write(body);
+            }
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }
@@ -41,7 +52,7 @@ public class RequestManager {
     }
 
     public static List<Property> queryProperties(long dateBefore, long dateAfter, String description, double latitude, double longitude, double radius) {
-        String request = RequestManager.request(ConnectionType.GET, "fetchpropertiesbyattribsforuser?userID=" + currentUser.getId() + "&dateBefore=" + dateBefore + "&dateAfter=" + dateAfter + "&desc=" + description + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius);
+        String request = RequestManager.request(ConnectionType.GET, "fetchpropertiesbyattribsforuser?userID=" + currentUser.getId() + "&dateBefore=" + dateBefore + "&dateAfter=" + dateAfter + "&desc=" + description + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius, null);
         try {
             List<Property> list = new ArrayList<>();
             JSONArray jsonArray = new JSONArray(request);
@@ -52,6 +63,36 @@ public class RequestManager {
         } catch (NullPointerException | JSONException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public static Property addProperty(String title, String date, String description, double latitude, double longitude, String imageBase64) {
+        String request = RequestManager.request(ConnectionType.POST, "addproperty", "{\"finderID\":"+ currentUser.getId() +",\"title\":\"" + title + "\",\"date\":" + date + ",\"latitude\":" + latitude + ",\"longitude\":" + longitude + ",\"description\":\"" + description + "\",\"" + imageBase64 + "\":\"-\"}");
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Property removeProperty(long id) {
+        String request = RequestManager.request(ConnectionType.GET, "deleteProperty?id=" + id, null);
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Property fetchProperty(long id) {
+        String request = RequestManager.request(ConnectionType.GET, "fetchpropertybyid?id=" + id, null);
+        try {
+            return Toolbox.jsonToProperty(new JSONObject(request), false);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
