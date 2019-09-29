@@ -7,20 +7,23 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestManager {
 
+    public static final String IP = "http://10.9.80.33:8080/";
 
     private static User currentUser;
 
-    private static String request(ConnectionType type, String address) {
+    private static String request(ConnectionType type, String command) {
         HttpURLConnection connection;
         BufferedReader in;
         try {
-            URL url = new URL(address);
+            URL url = new URL(IP + command);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(type.toString());
             connection.setDoOutput(true);
@@ -40,9 +43,19 @@ public class RequestManager {
         }
     }
 
-    public static List<Property> queryProperties(){
-        String response = "{\"id\":1,\"title\":\"Test\",\"date\":201909291000,\"latitude\":51.50587,\"longitude\":7.545263,\"description\":\"Test\",\"imageBase64\":\"-\",\"users\":[],\"finderID\":{\"id\":2,\"name\":\"Nocon\",\"givenName\":\"Maurice\",\"street\":\"Flughafenstraße\",\"houseNumber\":\"104d\",\"plz\":\"?\",\"email\":\"maurice.nocon@adesso.de\",\"phone\":\"?\",\"country\":{\"id\":1,\"name\":\"Deutschland\"},\"properties\":[]}}";
-
+    public static List<Property> queryProperties(long dateBefore, long dateAfter, String description, double latitude, double longitude, double radius){
+        String request = RequestManager.request(ConnectionType.GET, "fetchpropertiesbyattribsforuser?userID=" + currentUser.getId() + "&dateBefore=" + dateBefore + "&dateAfter=" + dateAfter + "&desc=" + description + "&lat=" + latitude + "&lon=" + longitude + "&radius=" + radius);
+        try {
+            List<Property> list = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray(request);
+            for(int i = 0; i < jsonArray.length(); i++){
+                list.add(Toolbox.jsonToProperty(jsonArray.getJSONObject(i), false));
+            }
+            return list;
+        }catch(NullPointerException | JSONException e){
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public static User getCurrentUser() {

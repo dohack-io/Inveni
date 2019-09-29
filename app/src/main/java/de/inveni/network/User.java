@@ -1,5 +1,7 @@
 package de.inveni.network;
 
+import java.util.List;
+
 public class User {
     private long id;
     private String name;
@@ -10,8 +12,9 @@ public class User {
     private String email;
     private String phone;
     private Country country;
+    private List<Property> properties;
 
-    public User(long id, String name, String givenName, String street, String houseNumber, String plz, String email, String phone, Country country) {
+    public User(long id, String name, String givenName, String street, String houseNumber, String plz, String email, String phone, Country country, List<Property> properties) {
         this.id = id;
         this.name = name;
         this.givenName = givenName;
@@ -21,6 +24,8 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.country = country;
+        this.properties = properties;
+
     }
 
     public long getId() {
@@ -57,5 +62,9 @@ public class User {
 
     public Country getCountry() {
         return country;
+    }
+
+    public List<Property> getProperties() {
+        return properties;
     }
 }

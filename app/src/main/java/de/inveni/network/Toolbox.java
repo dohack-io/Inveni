@@ -4,11 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Toolbox {
-    public static Property jsonToProperty(JSONObject jsonRoot) {
+    public static Property jsonToProperty(JSONObject jsonRoot, boolean lazy) {
         try {
             long id = jsonRoot.getLong("id");
             String title = jsonRoot.getString("title");
@@ -21,13 +22,15 @@ public class Toolbox {
             JSONObject finder = jsonRoot.getJSONObject("finder");
 
             List<User> _possibleOwners = new ArrayList<>();
-            for(int i = 0; i < possibleOwners.length(); i++){
-                _possibleOwners.add(Toolbox.jsonToUser(possibleOwners.getJSONObject(i)));
+            if (!lazy) {
+                for (int i = 0; i < possibleOwners.length(); i++) {
+                    _possibleOwners.add(Toolbox.jsonToUser(possibleOwners.getJSONObject(i), true));
+                }
             }
 
-            User _finder = Toolbox.jsonToUser(finder);
+            User _finder = Toolbox.jsonToUser(finder, false);
 
-            return new Property(id, _finder,title,date,latitude,longitude,description,imageBase64, _possibleOwners);
+            return new Property(id, _finder, title, date, latitude, longitude, description, imageBase64, _possibleOwners);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -35,8 +38,33 @@ public class Toolbox {
         }
     }
 
-    public static User jsonToUser(JSONObject jsonRoot){
+    public static User jsonToUser(JSONObject jsonRoot, boolean lazy) {
+        try {
+            long id = jsonRoot.getLong("id");
+            String name = jsonRoot.getString("name");
+            String givenName = jsonRoot.getString("givenName");
+            String street = jsonRoot.getString("street");
+            String houseNumber = jsonRoot.getString("houseNumber");
+            String plz = jsonRoot.getString("plz");
+            String email = jsonRoot.getString("email");
+            String phone = jsonRoot.getString("phone");
+            JSONObject country = jsonRoot.getJSONObject("country");
+            JSONArray properties = jsonRoot.getJSONArray("properties");
 
+            ArrayList<Property> _properties = new ArrayList<>();
+            if(!lazy) {
+                for (int i = 0; i < properties.length(); i++) {
+                    _properties.add(Toolbox.jsonToProperty(properties.getJSONObject(i), true));
+                }
+            }
+
+            Country _country = Toolbox.jsonToCountry(country);
+
+            return new User(id, name,givenName,street,houseNumber,plz,email,phone,_country,_properties);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Country jsonToCountry(JSONObject jsonRoot) {
